@@ -8,5 +8,8 @@ class ProfilePage extends StatelessWidget{
       centerTitle: true,
       backgroundColor: Colors.green,
     ),
+    body: const Center(
+        child: Text('Perfil', style: const TextStyle(fontWeight: FontWeight.bold), textScaleFactor: 3,)
+    ),
   );
 }

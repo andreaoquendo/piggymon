@@ -45,6 +45,9 @@ class _MainPageState extends State<MainPage> {
             // label: const Text('Adicionar transação'),
             child: const Icon(Icons.add),
         ),
+        body: const Center(
+          child: Text('Página Inicial', style: const TextStyle(fontWeight: FontWeight.bold), textScaleFactor: 3,)
+        ),
 
       );
 }

@@ -8,5 +8,8 @@ class AddTransactionPage extends StatelessWidget{
       centerTitle: true,
       backgroundColor: Colors.green,
     ),
+    body: const Center(
+        child: Text('Adicionar transacao', style: const TextStyle(fontWeight: FontWeight.bold), textScaleFactor: 3,)
+    ),
   );
 }
