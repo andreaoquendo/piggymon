@@ -30,6 +30,7 @@ class PiggyMon extends StatelessWidget {
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
+
 }
 
 class _MainPageState extends State<MainPage> {
@@ -45,9 +46,11 @@ class _MainPageState extends State<MainPage> {
             // label: const Text('Adicionar transação'),
             child: const Icon(Icons.add),
         ),
-        body: const Center(
-          child: Text('Página Inicial', style: const TextStyle(fontWeight: FontWeight.bold), textScaleFactor: 3,)
+        body: Text("Saldo Atual: \n\n\n\nPróximo ganho: \n\n\n\nPróximo gasto: \n\n\n\nÚltimas transações: \n",
+              style: TextStyle(fontSize: 25)
         ),
-
+        /*body: const Center(
+          child: Text('Página Inicial', style: const TextStyle(fontWeight: FontWeight.bold), textScaleFactor: 3,)
+        ),*/
       );
 }

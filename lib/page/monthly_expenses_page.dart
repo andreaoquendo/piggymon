@@ -14,4 +14,5 @@ class MonthlyExpensesPage extends StatelessWidget{
         child: Text('Despesas Mensais', style: const TextStyle(fontWeight: FontWeight.bold), textScaleFactor: 3,)
     ),
   );
+  
 }
