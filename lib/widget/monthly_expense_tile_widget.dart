@@ -10,7 +10,13 @@ class MonthlyExpenseTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(child: Icon(Icons.attach_money_rounded))
+      leading: CircleAvatar(child: Icon(Icons.attach_money_rounded)),
+      title: Text(mExpense.name),
+      subtitle: Text('Dia Descontado: ' + mExpense.day.toString() + ' Valor: R\$' + mExpense.quantity.toString()),
+      trailing: IconButton(
+        icon: Icon(Icons.edit),
+      onPressed: (){},)
+      // onLongPress
     );
   }
 }
