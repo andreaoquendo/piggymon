@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:piggymon/data/dummy_categories.dart';
+import 'package:piggymon/widget/category_tile_widget.dart';
 import 'package:piggymon/widget/navigation_drawer_widget.dart';
 import 'package:piggymon/page/add_category_page.dart';
 
 class CategoryPage extends StatelessWidget{
+  final categories = {...DUMMY_CATEGORIES};
+
   @override
   Widget build(BuildContext context) => Scaffold(
     drawer: NavigationDrawerWidget(),
@@ -19,8 +23,9 @@ class CategoryPage extends StatelessWidget{
             // label: const Text('Adicionar transação'),
             child: const Icon(Icons.add),
         ),
-    body: const Center(
-        child: Text('Categorias', style: const TextStyle(fontWeight: FontWeight.bold), textScaleFactor: 3,)
-    ),
+    body: ListView.builder(
+      itemCount: categories.length,
+      itemBuilder: (ctx, i) => CategoryTile(categories.values.elementAt(i))
+    )
   );
 }

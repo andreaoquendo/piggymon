@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:piggymon/page/add_transaction_page.dart';
-import 'package:piggymon/widget/button_widget.dart';
+import 'package:piggymon/provider/monthly_expenses.dart';
+import 'package:provider/provider.dart';
 import 'package:piggymon/widget/navigation_drawer_widget.dart';
 
 Future main() async {
@@ -19,12 +20,19 @@ class PiggyMon extends StatelessWidget {
   final color = Color.fromRGBO(112, 156, 67, 1);
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: title,
-        theme: ThemeData(primarySwatch: Colors.green),
-        home: MainPage(),
-      );
+  Widget build(BuildContext context) => MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+          create: (ctx) => MonthlyExpenses(),
+      )
+    ],
+    child: MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: title,
+      theme: ThemeData(primarySwatch: Colors.green),
+      home: MainPage(),
+    )
+  );
 }
 
 class MainPage extends StatefulWidget {

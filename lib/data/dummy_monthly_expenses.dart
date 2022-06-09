@@ -1,4 +1,4 @@
-import 'package:piggymon/models/monthly_expenses.dart';
+import 'package:piggymon/models/monthly_expense.dart';
 
 const DUMMY_MONTHLY_EXPENSES = {
   1: const MonthlyExpense(id: 1, day: 14, name: 'Internet', quantity: 155.50,),
