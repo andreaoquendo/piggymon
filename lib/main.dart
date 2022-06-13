@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:piggymon/page/add_category_page.dart';
+import 'package:piggymon/page/add_monthly_expense_page.dart';
 import 'package:piggymon/page/add_transaction_page.dart';
+import 'package:piggymon/provider/categories.dart';
 import 'package:piggymon/provider/monthly_expenses.dart';
+import 'package:piggymon/routes/piggymon_routes.dart';
 import 'package:provider/provider.dart';
 import 'package:piggymon/widget/navigation_drawer_widget.dart';
 
@@ -24,6 +28,9 @@ class PiggyMon extends StatelessWidget {
     providers: [
       ChangeNotifierProvider(
           create: (ctx) => MonthlyExpenses(),
+      ),
+      ChangeNotifierProvider(
+        create: (ctx) => Categories(),
       )
     ],
     child: MaterialApp(
@@ -31,6 +38,10 @@ class PiggyMon extends StatelessWidget {
       title: title,
       theme: ThemeData(primarySwatch: Colors.green),
       home: MainPage(),
+      routes: {
+        PiggymonRoutes.MONTHLY_EXPENSE_FORM: (_) => AddMonthlyExpensePage(),
+        PiggymonRoutes.CATEGORIES_FORM: (_) => AddCategoryPage(),
+      },
     )
   );
 }

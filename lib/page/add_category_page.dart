@@ -1,17 +1,81 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
-// Henrique
+import 'package:flutter/material.dart';
+import 'package:piggymon/models/category.dart';
+import 'package:piggymon/provider/categories.dart';
+import 'package:provider/provider.dart';
 
 class AddCategoryPage extends StatelessWidget{
+
+  final _form = GlobalKey<FormState>();
+  final Map<String, String> _formData = {};
+
+  void _loadFormData(Category category){
+    if(category != null){
+      _formData['id'] = category.id.toString();
+      _formData['name'] = category.name.toString();
+    }
+  }
+
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: Text('Adicionar Categoria'),
-      centerTitle: true,
-      backgroundColor: Colors.green,
-    ),
-    body: const Center(
-        child: Text('Adicionar Categoria', style: const TextStyle(fontWeight: FontWeight.bold), textScaleFactor: 3,)
-    ),
-  );
+  Widget build(BuildContext context) {
+
+    final category = ModalRoute.of(context)?.settings.arguments as Category;
+    _loadFormData(category);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Categoria'),
+        centerTitle: true,
+        backgroundColor: Colors.green,
+        actions: <Widget>[
+          IconButton(
+              onPressed: (){
+                final isValid = _form.currentState?.validate();
+                if(isValid == true){
+                  _form.currentState?.save();
+                  if(_formData['id'] == null) {
+                    _formData['id'] = Random().nextInt(100).toString();
+                  }
+
+                  Provider.of<Categories>(context, listen: false).put(
+                    Category(
+                      id: int.parse(_formData['id'].toString()),
+                      name: _formData['name'].toString()
+                    )
+                  );
+
+                  Navigator.of(context).pop();
+                }
+              },
+              icon: Icon(Icons.save)
+          )
+        ],
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Form(
+          key: _form,
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                initialValue: _formData['name'],
+                decoration: InputDecoration(
+                  labelText: 'Nome'
+                ),
+                validator: (value) {
+                  if(value == null || value.isEmpty)
+                    return 'Nome inválido';
+                },
+                onSaved: (value) {
+                  if(value != null)
+                    _formData['name'] = value;
+                },
+              )
+            ],
+          ),
+        )
+      ),
+    );
+  }
 }

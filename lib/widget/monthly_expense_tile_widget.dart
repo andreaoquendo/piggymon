@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:piggymon/models/monthly_expense.dart';
 import 'package:piggymon/page/add_monthly_expense_page.dart';
+import 'package:piggymon/provider/monthly_expenses.dart';
+import 'package:piggymon/routes/piggymon_routes.dart';
+import 'package:provider/provider.dart';
 
 class MonthlyExpenseTile extends StatelessWidget {
 
@@ -22,12 +25,17 @@ class MonthlyExpenseTile extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.edit),
               onPressed: (){
-                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => AddMonthlyExpensePage()));
+                Navigator.of(context).pushNamed(
+                  PiggymonRoutes.MONTHLY_EXPENSE_FORM,
+                  arguments: mExpense
+                );
               },),
             IconButton(
               icon: Icon(Icons.delete),
-              onPressed: (){},)
+              onPressed: (){
+                Provider.of<MonthlyExpenses>(context, listen: false).remove(mExpense);
+
+              },)
           ],
 
         ),

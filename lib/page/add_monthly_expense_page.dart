@@ -6,16 +6,27 @@ import 'package:piggymon/provider/monthly_expenses.dart';
 
 import 'package:provider/provider.dart';
 
-// Henrique
-
 class AddMonthlyExpensePage extends StatelessWidget{
 
   final _form = GlobalKey<FormState>();
   final Map<String, String> _formData = {};
 
+  void _loadFormData(MonthlyExpense mExpense){
+    if(mExpense != null){
+      _formData['id'] = mExpense.id.toString();
+      _formData['day'] = mExpense.day.toString();
+      _formData['name'] = mExpense.name;
+      _formData['quantity'] = mExpense.quantity.toString();
+    }
+  }
+
+
   @override
   Widget build(BuildContext context){
-    final MonthlyExpense mExpense =  ModalRoute.of(context)?.settings.arguments as MonthlyExpense;
+    final mExpense =  ModalRoute.of(context)?.settings.arguments as MonthlyExpense;
+
+    _loadFormData(mExpense);
+
 
     return Scaffold(
       appBar: AppBar(
@@ -26,12 +37,14 @@ class AddMonthlyExpensePage extends StatelessWidget{
           IconButton(
               onPressed: (){
                 final isValid = _form.currentState?.validate();
-                print('chegou ate aqui');
                 if(isValid == true){
                   _form.currentState?.save();
+                  if(_formData['id'] == null){
+                    _formData['id'] = Random().nextInt(100).toString();
+                  }
                   Provider.of<MonthlyExpenses>(context, listen: false).put(
                       MonthlyExpense(
-                        id: Random().nextInt(100),
+                        id: int.parse(_formData['id'].toString()),
                         day: int.parse(_formData['day'].toString()),
                         name: _formData['name'].toString(),
                         quantity: num.parse(_formData['quantity'].toString()),
@@ -51,6 +64,7 @@ class AddMonthlyExpensePage extends StatelessWidget{
           child: Column(
             children: <Widget>[
               TextFormField(
+                initialValue: _formData['name'],
                 decoration: InputDecoration(
                     labelText: 'Nome'
                 ),
@@ -64,6 +78,7 @@ class AddMonthlyExpensePage extends StatelessWidget{
                 },
               ),
               TextFormField(
+                  initialValue: _formData['quantity'],
                 decoration: InputDecoration(
                     labelText: 'Valor'
                 ),
@@ -77,6 +92,7 @@ class AddMonthlyExpensePage extends StatelessWidget{
                 },
               ),
               TextFormField(
+                initialValue: _formData['day'],
                 decoration: InputDecoration(
                     labelText: 'Dia do mês'
                 ),
