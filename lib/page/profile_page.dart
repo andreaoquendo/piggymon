@@ -1,67 +1,87 @@
 import 'package:flutter/material.dart';
+import 'package:piggymon/provider/accounts.dart';
+import 'package:piggymon/routes/piggymon_routes.dart';
 import 'package:piggymon/widget/navigation_drawer_widget.dart';
+import 'package:provider/provider.dart';
 
 // Andrea
 
 class ProfilePage extends StatelessWidget{
   @override
-  Widget build(BuildContext context) => Scaffold(
-    drawer: NavigationDrawerWidget(),
-    appBar: AppBar(
-      title: const Text('Perfil'),
-      centerTitle: true,
-      backgroundColor: Colors.green,
-    ),
-    body: Container(
-        child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            decoration: const BoxDecoration(
-              color: Colors.lightGreen,
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15)
-              ),
-            ),
-            padding: EdgeInsets.only(top:25, bottom:30),
-            alignment: Alignment.center,
-            width: double.infinity,
-            child: Column(
-              children: <Widget>[
-                const CircleAvatar(
-                    backgroundImage: NetworkImage('https://i.pinimg.com/236x/04/cb/51/04cb51d6983405b8e44a4eb67e7d90d7.jpg'),
-                    radius:50
-                ),
-                const SizedBox(height:15),
+  Widget build(BuildContext context){
 
-                Text(
-                    "Bem vinda,",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 35,
-                    )
-                ),
-                Text(
-                  "Anielle",
-                  style: TextStyle(
-                  color: Colors.amber,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 35,
-                )
-                )
-              ],
-            )
+    final accountId =  ModalRoute.of(context)?.settings.arguments as int;
+    final Accounts accounts = Provider.of(context);
+
+    print('profile page '+ accountId.toString());
+    return Scaffold(
+        drawer: NavigationDrawerWidget(accountId),
+        appBar: AppBar(
+          title: const Text('Perfil'),
+          centerTitle: true,
+          backgroundColor: Colors.green,
+          actions: <Widget>[
+            IconButton(
+                onPressed: (){
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      PiggymonRoutes.HOME,
+                      ModalRoute.withName('/')
+                  );
+                },
+                icon: Icon(Icons.logout))
+          ],
+        ),
+        body: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.lightGreen,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15)
+                    ),
+                  ),
+                  padding: EdgeInsets.only(top:25, bottom:30),
+                  alignment: Alignment.center,
+                  width: double.infinity,
+                  child: Column(
+                    children: <Widget>[
+                      const CircleAvatar(
+                          backgroundImage: NetworkImage('https://i.pinimg.com/236x/04/cb/51/04cb51d6983405b8e44a4eb67e7d90d7.jpg'),
+                          radius:50
+                      ),
+                      const SizedBox(height:15),
+
+                      Text(
+                          "Bem vinda,",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 35,
+                          )
+                      ),
+                      Text(
+                          accounts.getFirstName(accountId).toString(),
+                          style: TextStyle(
+                            color: Colors.amber,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 35,
+                          )
+                      )
+                    ],
+                  )
+              ),
+              SizedBox(height: 10),
+              _buildProfileItem("Nome:", accounts.getFirstName(accountId).toString() + ' ' + accounts.getLastName(accountId).toString()),
+              _buildProfileItem("Gênero:", accounts.getGender(accountId).toString()),
+              _buildProfileItem("Aniversário:",accounts.getBirthday(accountId).toString())
+            ],
           ),
-          SizedBox(height: 10),
-          _buildProfileItem("Nome:", "Anielle Olivera Silveira Passos"),
-          _buildProfileItem("Gênero:", "Feminino"),
-          _buildProfileItem("Aniversário:", "18/11/1998")
-        ],
-      ),
-    )
+        )
     );
+  }
 }
 
 Widget _buildProfileItem(String item, String value){

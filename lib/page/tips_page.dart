@@ -8,7 +8,7 @@ class TipsPage extends StatelessWidget{
   final tips = {...DUMMY_TIPS};
   @override
   Widget build(BuildContext context) => Scaffold(
-    drawer: NavigationDrawerWidget(),
+    // drawer: NavigationDrawerWidget(),
     appBar: AppBar(
       title: Text('Dicas'),
       centerTitle: true,

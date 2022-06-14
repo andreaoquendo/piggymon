@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:piggymon/models/transaction.dart';
+import 'package:piggymon/provider/transactions.dart';
+import 'package:provider/provider.dart';
 
 class TransactionTile extends StatelessWidget {
 
@@ -14,8 +16,10 @@ class TransactionTile extends StatelessWidget {
         title: Text('R\$' + transaction.value.toString()),
         subtitle: Text(transaction.category),
         trailing: IconButton(
-          icon: Icon(Icons.more_vert),
-          onPressed: (){},)
+          icon: Icon(Icons.delete),
+          onPressed: (){
+            Provider.of<Transactions>(context, listen: false).remove(transaction);
+          },)
       // onLongPress
     );
   }

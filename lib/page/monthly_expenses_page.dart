@@ -16,7 +16,7 @@ class MonthlyExpensesPage extends StatelessWidget{
     final MonthlyExpenses monthlyExpenses = Provider.of(context);
 
     return Scaffold(
-      drawer: NavigationDrawerWidget(),
+      // drawer: NavigationDrawerWidget(),
       appBar: AppBar(
         title: Text('Despesas Mensais'),
         centerTitle: true,

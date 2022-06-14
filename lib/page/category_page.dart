@@ -14,7 +14,7 @@ class CategoryPage extends StatelessWidget{
     final Categories categories = Provider.of(context);
 
     return Scaffold(
-        drawer: NavigationDrawerWidget(),
+        // drawer: NavigationDrawerWidget(),
         appBar: AppBar(
           title: Text('Categorias'),
           centerTitle: true,

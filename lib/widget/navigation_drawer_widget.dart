@@ -5,8 +5,13 @@ import 'package:piggymon/page/profile_page.dart';
 import 'package:piggymon/page/records_page.dart';
 import 'package:piggymon/page/tips_page.dart';
 import 'package:piggymon/main.dart';
+import 'package:piggymon/routes/piggymon_routes.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
+
+  NavigationDrawerWidget(this.accountId);
+
+  final int accountId;
   final padding = EdgeInsets.symmetric(horizontal: 20);
 
   @override
@@ -21,38 +26,38 @@ class NavigationDrawerWidget extends StatelessWidget {
                 buildMenuItem(
                   text: 'Página Inicial',
                   icon: Icons.catching_pokemon,
-                  onClicked: () => selectedItem(context, 0),
+                  onClicked: () => selectedItem(context, 0, accountId),
                 ),
                 const SizedBox(height: 16),
                 buildMenuItem(
                   text: 'Perfil',
                   icon: Icons.people,
-                  onClicked: () => selectedItem(context, 1),
+                  onClicked: () => selectedItem(context, 1, accountId),
                 ),
                 const SizedBox(height: 16),
                 buildMenuItem(
                   text: 'Histórico',
                   icon: Icons.update,
-                  onClicked: () => selectedItem(context, 2),
+                  onClicked: () => selectedItem(context, 2, accountId),
                 ),
                 const SizedBox(height: 16),
                 buildMenuItem(
                   text: 'Dicas',
                   icon: Icons.lightbulb_outlined,
                   //icon: Icons.foggy,
-                  onClicked: () => selectedItem(context, 3),
+                  onClicked: () => selectedItem(context, 3, accountId),
                 ),
                 const SizedBox(height: 16),
                 buildMenuItem(
                   text: 'Despesas Mensais',
                   icon: Icons.calendar_month_outlined,
-                  onClicked: () => selectedItem(context, 4),
+                  onClicked: () => selectedItem(context, 4, accountId),
                 ),
                 const SizedBox(height: 16),
                 buildMenuItem(
                   text: 'Categorias',
                   icon: Icons.interests_outlined,
-                  onClicked: () => selectedItem(context, 5),
+                  onClicked: () => selectedItem(context, 5, accountId),
                 ),
               ],
             )));
@@ -72,17 +77,22 @@ Widget buildMenuItem(
   );
 }
 
-void selectedItem(BuildContext context, int index) {
+void selectedItem(BuildContext context, int index, int accountId) {
   Navigator.of(context).pop();
+
+  print('item selecionado' + accountId.toString());
 
   switch (index) {
     case 0:
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => PiggyMon()));
+      Navigator.of(context).pushNamed(
+        PiggymonRoutes.HOME
+      );
       break;
     case 1:
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => ProfilePage()));
+      Navigator.of(context).pushNamed(
+        PiggymonRoutes.PROFILE_PAGE,
+        arguments: accountId
+      );
       break;
     case 2:
       Navigator.of(context)

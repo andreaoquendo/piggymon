@@ -10,7 +10,7 @@ class Transaction {
     this.idTransac = -1,
     this.category = 'none',
     required this.value,
-    required this.isExpense
+    required this.isExpense,
   });
 
 }

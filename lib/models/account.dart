@@ -12,13 +12,13 @@ class Account {
   const Account({
     this.id = 0,
     required this.firstName,
-  required this.lastName,
-  required this.email,
-  required this.password,
-  required this.birthday,
-  required this.gender,
-  this.balance = 0,
-  this.photoLink = ''
+    required this.lastName,
+    required this.email,
+    required this.password,
+    required this.birthday,
+    required this.gender,
+    this.balance = 0,
+    this.photoLink = ''
   });
 
 }
