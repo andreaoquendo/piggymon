@@ -3,8 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:piggymon/data/dummy_users.dart';
 import 'package:piggymon/models/account.dart';
+import 'package:piggymon/provider/mysql.dart';
 
 class Accounts with ChangeNotifier{
+  var db = new Mysql();
+
   final Map<int, Account> _items = {...DUMMY_USERS};
 
   List<Account> get all {
@@ -75,15 +78,32 @@ class Accounts with ChangeNotifier{
     notifyListeners();
   }
 
-  bool contains(String email){
+  Future<bool> contains(String email) async {
 
       bool flag = false;
-      for(Account account in _items.values){
+      /*for(Account account in _items.values){
         if(email == account.email){
           flag = true;
           break;
         }
-      }
+      }*/
+      print("entrei");
+
+      db.getConnection().then((conn) {
+        //print("entrei2");
+        String sql = "select email from conta where email = '" + email + "'";
+        conn.query(sql).then((results) {
+          print(results);
+        });
+      });
+
+      /*var conn = await db.getConnection();
+
+      var results = await conn.query("select email from conta where email = '?'", [email]);
+
+      for (var row in results) {
+        print(row[0]);
+      }*/
 
       return flag;
    }
