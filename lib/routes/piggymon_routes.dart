@@ -6,4 +6,5 @@ class PiggymonRoutes {
   static const TRANSACTIONS_FORM = 'add_transaction_page';
   static const MAIN_PAGE = '/main_page';
   static const PROFILE_PAGE = '/profile_page';
+  static const SIGNUP_PAGE = '/signup_page';
 }

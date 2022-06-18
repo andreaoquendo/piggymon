@@ -1,0 +1,71 @@
+[33mcommit a4749daa6ab18ff249aafca92ca72eb3948b6f4e[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Andrea Oquendo <oquendo.3455@gmail.com>
+Date:   Mon Jun 13 21:10:30 2022 -0300
+
+    login done
+
+[33mcommit c401fc109913f4488c998d0aef58c976808c84e9[m
+Author: Andrea Oquendo <oquendo.3455@gmail.com>
+Date:   Mon Jun 13 12:42:08 2022 -0300
+
+    add category page done
+
+[33mcommit 6c7a3d740350921f7d931507415d9ca3338eb99b[m
+Author: Andrea Oquendo <oquendo.3455@gmail.com>
+Date:   Wed Jun 8 22:28:27 2022 -0300
+
+    added form
+
+[33mcommit 91fddc61ff9a26e11722f27dd23795c4ee2bd61c[m
+Author: Andrea Oquendo <oquendo.3455@gmail.com>
+Date:   Wed Jun 8 09:44:12 2022 -0300
+
+    home page done
+
+[33mcommit 36702a75a8e678a4039a887cb0a868546dc8818f[m
+Author: Andrea Oquendo <oquendo.3455@gmail.com>
+Date:   Wed May 25 22:42:11 2022 -0300
+
+    UI do Perfil iniciado
+
+[33mcommit a414084bf3780efec961e0d6c483718d92c36d50[m
+Author: Andrea Oquendo <oquendo.3455@gmail.com>
+Date:   Wed May 25 21:34:50 2022 -0300
+
+    UI do Main iniciado
+
+[33mcommit 3c10cd89a572d219952b7a97211aaf3c9e6cfb30[m
+Author: Andrea Oquendo <oquendo.3455@gmail.com>
+Date:   Wed May 25 20:33:16 2022 -0300
+
+    UI do MonthlyExpense pronto
+
+[33mcommit fa20115427bd83827b360404bf7e27a48582c667[m
+Author: Andrea Oquendo <oquendo.3455@gmail.com>
+Date:   Wed May 18 22:00:06 2022 -0300
+
+    alterado monthly expense page, criado monthlyexpense class
+
+[33mcommit de20eb2fc90d74940f178c2e189d75aeed41714b[m
+Author: Andrea Oquendo <oquendo.3455@gmail.com>
+Date:   Wed May 11 09:41:12 2022 -0300
+
+    to-do
+
+[33mcommit 4c165ce0ee8a534de2c86d16d7a0515191cafb62[m
+Author: Fernanda Neto <fernanda_rneto@hotmail.com>
+Date:   Wed May 11 04:18:30 2022 -0300
+
+    Adicionado page de Categoria e mudança no body da MainPage e ProfilePage
+
+[33mcommit bb2d1ffaa5be1e6bdd0103fb152ce89382f08636[m
+Author: Andrea Oquendo <oquendo.3455@gmail.com>
+Date:   Tue May 10 18:08:27 2022 -0300
+
+    Added all pages on navigation
+
+[33mcommit 2a787702d9ad1aa81406ebbfc4d45881662f1f6a[m
+Author: Andrea Oquendo <oquendo.3455@gmail.com>
+Date:   Tue May 10 17:14:51 2022 -0300
+
+    initial navigation

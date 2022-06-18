@@ -6,6 +6,7 @@ import 'package:piggymon/page/add_transaction_page.dart';
 import 'package:piggymon/page/login_page.dart';
 import 'package:piggymon/page/main_page.dart';
 import 'package:piggymon/page/profile_page.dart';
+import 'package:piggymon/page/signup_page.dart';
 import 'package:piggymon/provider/accounts.dart';
 import 'package:piggymon/provider/categories.dart';
 import 'package:piggymon/provider/monthly_expenses.dart';
@@ -56,7 +57,8 @@ class PiggyMon extends StatelessWidget {
         PiggymonRoutes.TRANSACTIONS_FORM: (_) => AddTransactionPage(),
         PiggymonRoutes.MAIN_PAGE: (_) => MainPage(),
         PiggymonRoutes.HOME: (_) => LoginPage(),
-        PiggymonRoutes.PROFILE_PAGE: (_) => ProfilePage()
+        PiggymonRoutes.PROFILE_PAGE: (_) => ProfilePage(),
+        PiggymonRoutes.SIGNUP_PAGE: (_) => SignupPage()
       },
     )
   );

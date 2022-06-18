@@ -57,32 +57,55 @@ class LoginPage extends StatelessWidget {
                     }
                   }
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_form.currentState!.validate()) {
-                      _form.currentState?.save();
-                      int userId = accounts.login(_formData['email'].toString(), _formData['password'].toString());
-                      if( userId< 0){
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('A senha está incorreta')),
-                        );
-                      } else {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          PiggymonRoutes.MAIN_PAGE,
-                          ModalRoute.withName('/'),
-                          arguments: userId
-                        );
-                      }
-                      // If the form is valid, display a snackbar. In the real world,
-                      // you'd often call a server or save the information in a database.
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_form.currentState!.validate()) {
+                          _form.currentState?.save();
+                          int userId = accounts.login(_formData['email'].toString(), _formData['password'].toString());
+                          if( userId< 0){
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('A senha está incorreta')),
+                            );
+                          } else {
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                PiggymonRoutes.MAIN_PAGE,
+                                ModalRoute.withName('/'),
+                                arguments: userId
+                            );
+                          }
+                          // If the form is valid, display a snackbar. In the real world,
+                          // you'd often call a server or save the information in a database.
 
-                    }
-                  },
-                  child: const Text('Entrar'),
-                ),
-              ),
+                        }
+                      },
+                      child: const Text('Entrar'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                            Navigator.of(context).pushNamed(
+                              PiggymonRoutes.SIGNUP_PAGE
+                            );
+
+                          // If the form is valid, display a snackbar. In the real world,
+                          // you'd often call a server or save the information in a database.
+
+                        },
+                      child: const Text('Registrar-se'),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),
