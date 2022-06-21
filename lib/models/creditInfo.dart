@@ -1,10 +1,12 @@
 class CreditInfo {
-  final num totalAvailable;
-  final num outcomes;
-  final num incomes;
-  final num savingsGoal;
+  int accountId;
+  num totalAvailable;
+  num outcomes;
+  num incomes;
+  num savingsGoal;
 
-  const CreditInfo({
+  CreditInfo({
+    required this.accountId,
     this.totalAvailable = 0,
     this.outcomes = 0,
     this.incomes = 0,

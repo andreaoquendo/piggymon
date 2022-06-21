@@ -32,7 +32,7 @@ class LoginPage extends StatelessWidget {
                   if(value == null || value.isEmpty){
                     return 'Insira um e-mail';
                   } else if (!accounts.contains(value)){
-                    return 'Este email não existe no banco de dados';
+                    return 'E-mail não cadsatrado';
                   }
                 },
                 onSaved: (value) {

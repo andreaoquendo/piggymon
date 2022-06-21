@@ -3,12 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:piggymon/page/add_category_page.dart';
 import 'package:piggymon/page/add_monthly_expense_page.dart';
 import 'package:piggymon/page/add_transaction_page.dart';
+import 'package:piggymon/page/category_page.dart';
+import 'package:piggymon/page/filter_page.dart';
 import 'package:piggymon/page/login_page.dart';
 import 'package:piggymon/page/main_page.dart';
+import 'package:piggymon/page/monthly_expenses_page.dart';
 import 'package:piggymon/page/profile_page.dart';
+import 'package:piggymon/page/records_page.dart';
 import 'package:piggymon/page/signup_page.dart';
 import 'package:piggymon/provider/accounts.dart';
 import 'package:piggymon/provider/categories.dart';
+import 'package:piggymon/provider/credit_infos.dart';
 import 'package:piggymon/provider/monthly_expenses.dart';
 import 'package:piggymon/provider/transactions.dart';
 import 'package:piggymon/routes/piggymon_routes.dart';
@@ -44,6 +49,9 @@ class PiggyMon extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (ctx) => Accounts(),
+      ),
+      ChangeNotifierProvider(
+        create: (ctx) => CreditInfos(),
       )
     ],
     child: MaterialApp(
@@ -58,7 +66,11 @@ class PiggyMon extends StatelessWidget {
         PiggymonRoutes.MAIN_PAGE: (_) => MainPage(),
         PiggymonRoutes.HOME: (_) => LoginPage(),
         PiggymonRoutes.PROFILE_PAGE: (_) => ProfilePage(),
-        PiggymonRoutes.SIGNUP_PAGE: (_) => SignupPage()
+        PiggymonRoutes.SIGNUP_PAGE: (_) => SignupPage(),
+        PiggymonRoutes.RECORDS_PAGE: (_) => RecordsPage(),
+        PiggymonRoutes.CATEGORIES_PAGE: (_) => CategoryPage(),
+        PiggymonRoutes.MONTHLY_EXPENSES_PAGE: (_) => MonthlyExpensesPage(),
+        PiggymonRoutes.FILTER_PAGE: (_) => FilterPage()
       },
     )
   );

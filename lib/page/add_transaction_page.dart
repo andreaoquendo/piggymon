@@ -1,8 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:piggymon/models/creditInfo.dart';
 import 'package:piggymon/models/transaction.dart';
+import 'package:piggymon/provider/categories.dart';
 import 'package:piggymon/provider/transactions.dart';
+import 'package:piggymon/provider/credit_infos.dart';
+import 'package:piggymon/routes/piggymon_routes.dart';
 import 'package:provider/provider.dart';
 
 class AddTransactionPage extends StatefulWidget {
@@ -13,10 +17,15 @@ class _AddTransactionPage extends State<AddTransactionPage>{
 
   final _form = GlobalKey<FormState>();
   final Map<String, String> _formData = {};
-  String dropdownValue = 'Gasto';
+
+  String dropdownValue = 'Receita';
+  String dropdownValueB = ' ';
 
   @override
   Widget build(BuildContext context){
+
+    final accountId =  ModalRoute.of(context)?.settings.arguments as int;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Transação'),
@@ -33,20 +42,26 @@ class _AddTransactionPage extends State<AddTransactionPage>{
                   }
 
                   var gasto = true;
-                  if(dropdownValue == 'Ganho') {
+                  if(dropdownValue == 'Receita') {
                     gasto = false;
                   }
 
                   Provider.of<Transactions>(context, listen:false).put(
                     Transaction(
                       idTransac: int.parse(_formData['id'].toString()),
+                      accountId: accountId,
                       value: num.parse(_formData['value'].toString()),
                       isExpense: gasto,
-                      category: _formData['category'].toString()
+                      category: dropdownValueB
                     )
                   );
+                  Provider.of<CreditInfos>(context, listen: false).update(accountId, gasto, num.parse(_formData['value'].toString()));
 
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    PiggymonRoutes.MAIN_PAGE,
+                    (route) => false,
+                    arguments: accountId
+                  );
 
                 }
               },
@@ -76,21 +91,26 @@ class _AddTransactionPage extends State<AddTransactionPage>{
                   }
                 },
               ),
-              TextFormField(
-                initialValue: _formData['category'],
-                decoration: InputDecoration(
-                    labelText: 'Categoria'
+              SizedBox(height: 16),
+              DropdownButton<String>(
+                value: dropdownValueB,
+                isExpanded: true,
+                underline: Container(
+                    height: double.parse(Provider.of<Categories>(context, listen: false).categories(accountId).length.toString()),
+                    color: Colors.green
                 ),
-                validator: (value) {
-                  if(value == null || value.isEmpty){
-                    return 'Categoria Inválida';
-                  }
+                onChanged: (String? newValue){
+                  setState(() {
+                    dropdownValueB = newValue!;
+                  });
                 },
-                onSaved: (value) {
-                  if(value != null){
-                    _formData['category'] = value;
-                  }
-                },
+                items: Provider.of<Categories>(context, listen: false).categories(accountId).map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+
               ),
               SizedBox(
                 height: 16,
@@ -107,8 +127,7 @@ class _AddTransactionPage extends State<AddTransactionPage>{
                     dropdownValue = newValue!;
                   });
                 },
-                  items: <String>['Gasto', 'Ganho']
-                      .map<DropdownMenuItem<String>>((String value) {
+                  items: <String>['Receita', 'Despesa'].map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),

@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:piggymon/data/dummy_credit_infos.dart';
 import 'package:piggymon/data/dummy_users.dart';
 import 'package:piggymon/models/account.dart';
+import 'package:piggymon/models/creditInfo.dart';
 
 class Accounts with ChangeNotifier{
   final Map<int, Account> _items = {...DUMMY_USERS};
@@ -15,8 +17,22 @@ class Accounts with ChangeNotifier{
     return _items.length;
   }
 
+  int get validId {
+    dynamic id;
+    do{
+      id = Random().nextInt(100);
+    }while(byId(id) != null);
+    return id;
+  }
+
+  Account? byId(int id){
+    for(Account account in _items.values){
+      if(account.id == id) return account;
+    }
+    return null;
+  }
+
   String? getFirstName(int id){
-    print(_items.keys);
     if(_items[id] != null) {
       return _items[id]?.firstName;
     }else {
@@ -57,12 +73,11 @@ class Accounts with ChangeNotifier{
 
   void put(Account account){
     // edit
-    if(account.id != null && _items.containsKey(account.id)){
+    if(account.id == 0 && _items.containsKey(account.id)){
       _items.update(account.id, (_) => Account(firstName: account.firstName, lastName: account.lastName, email: account.email, password: account.password, birthday: account.birthday, gender: account.gender));
     }else{
-      final id = Random().nextInt(100);
-      _items.putIfAbsent(id, () => Account(
-        id: id,
+      _items.putIfAbsent(account.id, () => Account(
+        id: account.id,
           firstName: account.firstName,
           lastName: account.lastName,
           email: account.email,
@@ -70,6 +85,7 @@ class Accounts with ChangeNotifier{
           birthday: account.birthday,
           gender: account.gender
       ));
+
     }
     // add
     notifyListeners();

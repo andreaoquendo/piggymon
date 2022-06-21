@@ -12,6 +12,7 @@ class CategoryPage extends StatelessWidget{
   Widget build(BuildContext context) {
 
     final Categories categories = Provider.of(context);
+    final accountId =  ModalRoute.of(context)?.settings.arguments as int;
 
     return Scaffold(
         // drawer: NavigationDrawerWidget(),
@@ -23,15 +24,16 @@ class CategoryPage extends StatelessWidget{
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).pushNamed(
-              PiggymonRoutes.CATEGORIES_FORM
+              PiggymonRoutes.CATEGORIES_FORM,
+              arguments: accountId
             );
           },
           // label: const Text('Adicionar transação'),
           child: const Icon(Icons.add),
         ),
         body: ListView.builder(
-            itemCount: categories.count,
-            itemBuilder: (ctx, i) => CategoryTile(categories.byIndex(i))
+            itemCount: categories.categoriesCount(accountId),
+            itemBuilder: (ctx, i) => CategoryTile(categories.byIndex(i, accountId))
         )
     );
   }

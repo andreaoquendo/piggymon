@@ -10,18 +10,12 @@ class AddCategoryPage extends StatelessWidget{
   final _form = GlobalKey<FormState>();
   final Map<String, String> _formData = {};
 
-  void _loadFormData(Category category){
-    if(category != null){
-      _formData['id'] = category.id.toString();
-      _formData['name'] = category.name.toString();
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
 
-    final category = ModalRoute.of(context)?.settings.arguments as Category;
-    _loadFormData(category);
+    final accountId =  ModalRoute.of(context)?.settings.arguments as int;
 
     return Scaffold(
       appBar: AppBar(
@@ -40,6 +34,7 @@ class AddCategoryPage extends StatelessWidget{
 
                   Provider.of<Categories>(context, listen: false).put(
                     Category(
+                      accountId: accountId,
                       id: int.parse(_formData['id'].toString()),
                       name: _formData['name'].toString()
                     )

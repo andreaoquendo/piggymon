@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:piggymon/provider/credit_infos.dart';
 import 'package:piggymon/routes/piggymon_routes.dart';
 import 'package:piggymon/widget/navigation_drawer_widget.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -17,6 +19,14 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context){
 
     final accountId =  ModalRoute.of(context)?.settings.arguments as int;
+    final CreditInfos creditInfos = Provider.of(context);
+    var totalAvailable = creditInfos.getTotalAvailable(accountId)!;
+    var sign = '';
+    if(totalAvailable < 0){
+      totalAvailable = totalAvailable.abs();
+      sign = '-';
+    }
+
 
     return Scaffold(
         drawer: NavigationDrawerWidget(accountId),
@@ -24,7 +34,8 @@ class _MainPageState extends State<MainPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).pushNamed(
-                PiggymonRoutes.TRANSACTIONS_FORM
+                PiggymonRoutes.TRANSACTIONS_FORM,
+                arguments: accountId
             );
           },
           // label: const Text('Adicionar transação'),
@@ -52,8 +63,9 @@ class _MainPageState extends State<MainPage> {
                           alignment: Alignment.center,
                           width: double.infinity,
                           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                          child: const Text(
-                              "- R\$25,00",
+                          child: Text(
+
+                              sign + "R\$" + totalAvailable.toString(),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -67,7 +79,7 @@ class _MainPageState extends State<MainPage> {
                           width: double.infinity,
                           padding: EdgeInsets.symmetric(horizontal:16),
                           child: Text(
-                              "Você está R\$15.00 longe da sua meta para este mês.",
+                              "Você está R\$"+ (totalAvailable - creditInfos.getSavingsGoal(accountId)!).toString() +" longe da sua meta para este mês.",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,
@@ -101,7 +113,7 @@ class _MainPageState extends State<MainPage> {
                                   textAlign: TextAlign.left,
                                 ),
                                 SizedBox(height:15),
-                                Text('R\$150.00',
+                                Text('R\$' + creditInfos.getSavingsGoal(accountId).toString(),
                                   style: TextStyle(
                                       fontSize: 40,
                                       color: Colors.black,
@@ -136,7 +148,7 @@ class _MainPageState extends State<MainPage> {
                                   textAlign: TextAlign.left,
                                 ),
                                 SizedBox(height:15),
-                                Text('R\$150.00',
+                                Text('R\$' + creditInfos.getOutcomes(accountId).toString(),
                                   style: TextStyle(
                                       fontSize: 40,
                                       color: Colors.black,
@@ -171,7 +183,7 @@ class _MainPageState extends State<MainPage> {
                                   textAlign: TextAlign.left,
                                 ),
                                 SizedBox(height:15),
-                                Text('R\$150.00',
+                                Text('R\$' + creditInfos.getIncomes(accountId).toString(),
                                   style: TextStyle(
                                       fontSize: 40,
                                       color: Colors.black,

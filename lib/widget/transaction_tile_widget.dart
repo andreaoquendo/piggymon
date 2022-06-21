@@ -12,7 +12,7 @@ class TransactionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        leading: CircleAvatar(child: Icon(Icons.exposure_minus_1)),
+        leading: transaction.isExpense ? CircleAvatar(child: Icon(Icons.exposure_minus_1)) : CircleAvatar(child: Icon(Icons.plus_one),),
         title: Text('R\$' + transaction.value.toString()),
         subtitle: Text(transaction.category),
         trailing: IconButton(

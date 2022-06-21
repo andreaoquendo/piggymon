@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:piggymon/models/account.dart';
+import 'package:piggymon/models/creditInfo.dart';
 import 'package:piggymon/provider/accounts.dart';
+import 'package:piggymon/provider/credit_infos.dart';
 import 'package:piggymon/routes/piggymon_routes.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +14,7 @@ class SignupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Accounts accounts = Provider.of(context);
+    final CreditInfos creditInfos = Provider.of(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -83,7 +86,6 @@ class SignupPage extends StatelessWidget {
                       }
                   ),
                   TextFormField(
-                      obscureText: true,
                       decoration: InputDecoration(
                           labelText: 'Gênero (F ou M)'
                       ),
@@ -99,7 +101,6 @@ class SignupPage extends StatelessWidget {
                       }
                   ),
                   TextFormField(
-                      obscureText: true,
                       decoration: InputDecoration(
                           labelText: 'Data de Nascimento (dd/mm/aaaa)'
                       ),
@@ -110,7 +111,16 @@ class SignupPage extends StatelessWidget {
                       }
                   ),
                   TextFormField(
-                      obscureText: true,
+                      decoration: InputDecoration(
+                          labelText: 'Meta de Poupança (ex: 150.60)'
+                      ),
+                      onSaved: (value) {
+                        if(value != null){
+                          _formData['goal'] = value;
+                        }
+                      }
+                  ),
+                  TextFormField(
                       decoration: InputDecoration(
                           labelText: 'Link de foto (opcional)'
                       ),
@@ -126,6 +136,24 @@ class SignupPage extends StatelessWidget {
                       onPressed: () async {
                         if (_form.currentState!.validate()) {
                           _form.currentState?.save();
+                          int newId = accounts.validId;
+                          accounts.put(
+                            Account(
+                                id: newId,
+                                firstName: _formData['firstName'].toString(),
+                                lastName: _formData['lastName'].toString(),
+                                email: _formData['email'].toString(),
+                                password: _formData['password'].toString(),
+                                birthday: _formData['birthday'].toString(),
+                                gender: _formData['gender'].toString()
+                            )
+                          );
+                          creditInfos.put(
+                              CreditInfo(
+                                  accountId: newId,
+                                  savingsGoal: num.parse(_formData['goal'].toString()))
+                          );
+
 
 
                           ScaffoldMessenger.of(context).showSnackBar(

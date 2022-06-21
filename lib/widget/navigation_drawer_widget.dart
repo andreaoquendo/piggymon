@@ -85,7 +85,8 @@ void selectedItem(BuildContext context, int index, int accountId) {
   switch (index) {
     case 0:
       Navigator.of(context).pushNamed(
-        PiggymonRoutes.HOME
+        PiggymonRoutes.MAIN_PAGE,
+        arguments: accountId
       );
       break;
     case 1:
@@ -95,20 +96,26 @@ void selectedItem(BuildContext context, int index, int accountId) {
       );
       break;
     case 2:
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => RecordsPage()));
+      Navigator.of(context).pushNamed(
+          PiggymonRoutes.RECORDS_PAGE,
+          arguments: accountId
+      );
       break;
     case 3:
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => TipsPage()));
       break;
     case 4:
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => MonthlyExpensesPage()));
+      Navigator.of(context).pushNamed(
+        PiggymonRoutes.MONTHLY_EXPENSES_PAGE,
+        arguments: accountId
+      );
       break;
     case 5:
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => CategoryPage()));
+      Navigator.of(context).pushNamed(
+        PiggymonRoutes.CATEGORIES_PAGE,
+        arguments: accountId
+      );
       break;
   }
 }
