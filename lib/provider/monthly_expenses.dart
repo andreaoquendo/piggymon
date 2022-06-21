@@ -15,18 +15,33 @@ class MonthlyExpenses with ChangeNotifier{
     return _items.length;
   }
 
-  MonthlyExpense byIndex(int i){
-    return _items.values.elementAt(i);
+  int getExpensesCount(int accountId){
+    return expensesByAccount(accountId).length;
+  }
+
+  List<MonthlyExpense> expensesByAccount(int accountId){
+    List<MonthlyExpense> transacs = [];
+    for(MonthlyExpense item in _items.values){
+      if(item.accountId == accountId)
+        transacs.add(item);
+    }
+    return transacs;
+  }
+
+  MonthlyExpense byIndex(int i, int accountId){
+    return expensesByAccount(accountId)[i];
   }
 
   void put(MonthlyExpense mExpense){
     // edit
     if(mExpense.id != null && _items.containsKey(mExpense.id)){
-      _items.update(mExpense.id, (_) => MonthlyExpense(day: mExpense.day, name: mExpense.name, quantity: mExpense.quantity));
+      _items.update(mExpense.id, (_) => MonthlyExpense(accountId: mExpense.accountId, isExpense: mExpense.isExpense, day: mExpense.day, name: mExpense.name, quantity: mExpense.quantity));
     }else{
       final id = Random().nextInt(100);
       _items.putIfAbsent(id, () => MonthlyExpense(
         id: id,
+        accountId: mExpense.accountId,
+        isExpense: mExpense.isExpense,
         day: mExpense.day,
         name: mExpense.name,
         quantity: mExpense.quantity,

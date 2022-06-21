@@ -2,31 +2,27 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:piggymon/models/monthly_expense.dart';
+import 'package:piggymon/provider/categories.dart';
 import 'package:piggymon/provider/monthly_expenses.dart';
 
 import 'package:provider/provider.dart';
 
-class AddMonthlyExpensePage extends StatelessWidget{
+class AddMonthlyExpensePage extends StatefulWidget {
+  @override
+  _AddMonthlyExpensePage createState() => _AddMonthlyExpensePage();
+}
+
+class _AddMonthlyExpensePage extends State<AddMonthlyExpensePage>{
 
   final _form = GlobalKey<FormState>();
   final Map<String, String> _formData = {};
 
-  void _loadFormData(MonthlyExpense mExpense){
-    if(mExpense != null){
-      _formData['id'] = mExpense.id.toString();
-      _formData['day'] = mExpense.day.toString();
-      _formData['name'] = mExpense.name;
-      _formData['quantity'] = mExpense.quantity.toString();
-    }
-  }
-
+  String dropdownValue = 'Receita';
+  String dropdownValueB = ' ';
 
   @override
   Widget build(BuildContext context){
-    final mExpense =  ModalRoute.of(context)?.settings.arguments as MonthlyExpense;
-
-    _loadFormData(mExpense);
-
+    final accountId =  ModalRoute.of(context)?.settings.arguments as int;
 
     return Scaffold(
       appBar: AppBar(
@@ -42,9 +38,17 @@ class AddMonthlyExpensePage extends StatelessWidget{
                   if(_formData['id'] == null){
                     _formData['id'] = Random().nextInt(100).toString();
                   }
+
+                  var gasto = true;
+                  if(dropdownValue == 'Receita') {
+                    gasto = false;
+                  }
+
                   Provider.of<MonthlyExpenses>(context, listen: false).put(
                       MonthlyExpense(
                         id: int.parse(_formData['id'].toString()),
+                        accountId: accountId,
+                        isExpense: gasto,
                         day: int.parse(_formData['day'].toString()),
                         name: _formData['name'].toString(),
                         quantity: num.parse(_formData['quantity'].toString()),
@@ -105,17 +109,50 @@ class AddMonthlyExpensePage extends StatelessWidget{
                     _formData['day'] = value;
                 },
               ),
-              TextFormField(
-                decoration: InputDecoration(
-                    labelText: 'Categoria'
+              SizedBox(height: 16),
+              DropdownButton<String>(
+                value: dropdownValueB,
+                isExpanded: true,
+                underline: Container(
+                    height: double.parse(Provider.of<Categories>(context, listen: false).categories(accountId).length.toString()),
+                    color: Colors.green
                 ),
-                onSaved: (value){
-                  if(value != null)
-                    _formData['category'] = value;
-                  else
-                    _formData['category'] = 'none';
+                onChanged: (String? newValue){
+
+                  setState(() {
+                    print('mudou');
+                    dropdownValueB = newValue!;
+                  });
                 },
-              ),
+                items: Provider.of<Categories>(context, listen: false).categories(accountId).map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+            }).toList(),
+
+          ),
+              SizedBox(height: 16),
+              DropdownButton<String>(
+                value: dropdownValue,
+                isExpanded: true,
+                underline: Container(
+                    height: 2,
+                    color: Colors.green
+                ),
+                onChanged: (String? newValue){
+                  setState(() {
+                    dropdownValue = newValue!;
+                  });
+                },
+                items: <String>['Receita', 'Despesa'].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+
+              )
             ],
           ),
         ),

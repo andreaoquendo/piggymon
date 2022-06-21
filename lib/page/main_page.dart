@@ -79,7 +79,7 @@ class _MainPageState extends State<MainPage> {
                           width: double.infinity,
                           padding: EdgeInsets.symmetric(horizontal:16),
                           child: Text(
-                              "Você está R\$"+ (totalAvailable - creditInfos.getSavingsGoal(accountId)!).toString() +" longe da sua meta para este mês.",
+                              "Saldo Atual",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,

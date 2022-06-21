@@ -18,28 +18,12 @@ class MonthlyExpenseTile extends StatelessWidget {
       title: Text(mExpense.name),
       contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       subtitle: Text('Dia Descontado: ' + mExpense.day.toString() + '\nValor: R\$' + mExpense.quantity.toString()),
-      trailing: Container(
-        width:96,
-        child: Row(
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: (){
-                Navigator.of(context).pushNamed(
-                  PiggymonRoutes.MONTHLY_EXPENSE_FORM,
-                  arguments: mExpense
-                );
-              },),
-            IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: (){
-                Provider.of<MonthlyExpenses>(context, listen: false).remove(mExpense);
+      trailing: IconButton(
+        icon: Icon(Icons.delete),
+        onPressed: (){
+          Provider.of<MonthlyExpenses>(context, listen: false).remove(mExpense);
 
-              },)
-          ],
-
-        ),
-      )
+        },)
       // onLongPress
     );
   }

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:piggymon/models/creditInfo.dart';
+
 import 'package:piggymon/models/transaction.dart';
 import 'package:piggymon/provider/categories.dart';
 import 'package:piggymon/provider/transactions.dart';

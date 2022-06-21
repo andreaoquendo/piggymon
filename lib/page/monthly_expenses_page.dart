@@ -14,6 +14,7 @@ class MonthlyExpensesPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     final MonthlyExpenses monthlyExpenses = Provider.of(context);
+    final accountId =  ModalRoute.of(context)?.settings.arguments as int;
 
     return Scaffold(
       // drawer: NavigationDrawerWidget(),
@@ -27,16 +28,17 @@ class MonthlyExpensesPage extends StatelessWidget{
            //Navigator.of(context).push(MaterialPageRoute(
              // builder: (context) => AddMonthlyExpensePage()));
           Navigator.of(context).pushNamed(
-            PiggymonRoutes.MONTHLY_EXPENSE_FORM
+            PiggymonRoutes.MONTHLY_EXPENSE_FORM,
+            arguments: accountId
           );
         },
         // label: const Text('Adicionar transação'),
         child: const Icon(Icons.add),
       ),
       body: ListView.builder(
-        itemCount: monthlyExpenses.count,
+        itemCount: monthlyExpenses.getExpensesCount(accountId),
         itemBuilder: (ctx, i) =>
-            MonthlyExpenseTile(monthlyExpenses.byIndex(i)),
+            MonthlyExpenseTile(monthlyExpenses.byIndex(i, accountId)),
       ),
     );
     }
