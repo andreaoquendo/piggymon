@@ -1,21 +1,25 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:piggymon/models/category.dart';
 import 'package:piggymon/provider/categories.dart';
+import 'package:piggymon/routes/piggymon_routes.dart';
 import 'package:provider/provider.dart';
 
-class AddCategoryPage extends StatelessWidget{
+class AddCategoryPage extends StatefulWidget{
+  final dynamic accountId;
+
+  AddCategoryPage({@required this.accountId});
+
+  @override
+  _AddCategoryPage createState() => _AddCategoryPage();
+}
+
+class _AddCategoryPage extends State<AddCategoryPage>{
 
   final _form = GlobalKey<FormState>();
   final Map<String, String> _formData = {};
 
-
-
   @override
   Widget build(BuildContext context) {
-
-    final accountId =  ModalRoute.of(context)?.settings.arguments as int;
 
     return Scaffold(
       appBar: AppBar(
@@ -28,19 +32,19 @@ class AddCategoryPage extends StatelessWidget{
                 final isValid = _form.currentState?.validate();
                 if(isValid == true){
                   _form.currentState?.save();
-                  if(_formData['id'] == null) {
-                    _formData['id'] = Random().nextInt(100).toString();
-                  }
 
                   Provider.of<Categories>(context, listen: false).put(
                     Category(
-                      accountId: accountId,
-                      id: int.parse(_formData['id'].toString()),
+                      accountId: widget.accountId,
                       name: _formData['name'].toString()
                     )
                   );
 
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      PiggymonRoutes.CATEGORIES_PAGE,
+                      (route) => false,
+                      arguments: widget.accountId
+                  );
                 }
               },
               icon: Icon(Icons.save)

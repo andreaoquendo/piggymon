@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:piggymon/data/dummy_categories.dart';
+import 'package:piggymon/db/database.dart';
 import 'package:piggymon/models/category.dart';
 
 class Categories with ChangeNotifier{
@@ -23,13 +24,8 @@ class Categories with ChangeNotifier{
     return categories;
   }
 
-  List<String> categories(int accountId){
-    List<String> s = [' '];
-    List<Category> c = categoriesByAccount(accountId);
-    for(Category cat in c){
-      s.add(cat.name);
-    }
-    return s;
+  Future<List<String>> categories(int accountId) async {
+    return await PiggymonDatabase.instance.listCategories(accountId);
   }
 
   int categoriesCount(int accountId){
@@ -49,19 +45,8 @@ class Categories with ChangeNotifier{
     return false;
   }
 
-  void put(Category category){
-    // edit
-    if(contains(category)){
-      _items.update(category.id, (_) => Category(accountId: category.accountId, id: category.id, name: category.name));
-    }else{
-      final id = Random().nextInt(100);
-      _items.putIfAbsent(id, () => Category(
-        accountId: category.accountId,
-        id: id,
-        name: category.name,
-      ));
-    }
-    // add
+  void put(Category category) async {
+    await PiggymonDatabase.instance.createCategory(category);
     notifyListeners();
   }
 

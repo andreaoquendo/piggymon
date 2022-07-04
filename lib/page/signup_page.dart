@@ -136,25 +136,17 @@ class SignupPage extends StatelessWidget {
                       onPressed: () async {
                         if (_form.currentState!.validate()) {
                           _form.currentState?.save();
-                          int newId = accounts.validId;
                           accounts.put(
                             Account(
-                                id: newId,
                                 firstName: _formData['firstName'].toString(),
                                 lastName: _formData['lastName'].toString(),
                                 email: _formData['email'].toString(),
                                 password: _formData['password'].toString(),
                                 birthday: _formData['birthday'].toString(),
                                 gender: _formData['gender'].toString()
-                            )
+                            ),
+                              num.parse(_formData['goal'].toString())
                           );
-                          creditInfos.put(
-                              CreditInfo(
-                                  accountId: newId,
-                                  savingsGoal: num.parse(_formData['goal'].toString()))
-                          );
-
-
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Registrado')),

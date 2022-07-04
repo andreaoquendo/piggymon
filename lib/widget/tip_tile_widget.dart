@@ -14,15 +14,15 @@ class TipTile extends StatelessWidget {
             borderRadius:  BorderRadius.circular(25)
         ),
         child: ListTile(
-            title: Text('Dicaaa',
+            title: Text('Dica Importante!',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.bold
               ),
             ),
             subtitle: Text(tip.text,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 color: Colors.grey,
 
               ),

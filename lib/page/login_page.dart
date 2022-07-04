@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piggymon/db/database.dart';
 import 'package:piggymon/provider/accounts.dart';
 import 'package:piggymon/routes/piggymon_routes.dart';
 import 'package:provider/provider.dart';
@@ -29,10 +30,10 @@ class LoginPage extends StatelessWidget {
                   labelText: 'E-mail'
                 ),
                 validator: (value) {
+
+                  // var contains = accounts.contains(value.toString());
                   if(value == null || value.isEmpty){
                     return 'Insira um e-mail';
-                  } else if (!accounts.contains(value)){
-                    return 'E-mail não cadsatrado';
                   }
                 },
                 onSaved: (value) {
@@ -63,15 +64,16 @@ class LoginPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_form.currentState!.validate()) {
                           _form.currentState?.save();
-                          int userId = accounts.login(_formData['email'].toString(), _formData['password'].toString());
-                          if( userId< 0){
+                          var userId = await PiggymonDatabase.instance.login(_formData['email'].toString(), _formData['password'].toString());
+                          if(userId < 0){
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('A senha está incorreta')),
                             );
                           } else {
+                            print('accountId 1: ' + userId.toString());
                             Navigator.of(context).pushNamedAndRemoveUntil(
                                 PiggymonRoutes.MAIN_PAGE,
                                 ModalRoute.withName('/'),

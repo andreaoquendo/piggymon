@@ -1,21 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:piggymon/provider/accounts.dart';
+import 'package:piggymon/db/database.dart';
+import 'package:piggymon/models/account.dart';
 import 'package:piggymon/routes/piggymon_routes.dart';
 import 'package:piggymon/widget/navigation_drawer_widget.dart';
-import 'package:provider/provider.dart';
 
-// Andrea
 
-class ProfilePage extends StatelessWidget{
+class ProfilePage extends StatefulWidget {
+  final dynamic accountId;
+
+  ProfilePage({@required this.accountId});
+
+  @override
+  _ProfilePage createState() => _ProfilePage();
+}
+
+class _ProfilePage extends State<ProfilePage>{
+
+  late Future<Account> account;
+
+  @override
+  void initState(){
+    super.initState();
+
+    account = getData(widget.accountId);
+  }
+
+  Future<Account> getData(int id) async {
+    return await PiggymonDatabase.instance.readAccount(id);
+  }
+
   @override
   Widget build(BuildContext context){
 
-    final accountId =  ModalRoute.of(context)?.settings.arguments as int;
-    final Accounts accounts = Provider.of(context);
 
-    print('profile page '+ accountId.toString());
     return Scaffold(
-        drawer: NavigationDrawerWidget(accountId),
+        drawer: NavigationDrawerWidget(widget.accountId),
         appBar: AppBar(
           title: const Text('Perfil'),
           centerTitle: true,
@@ -31,55 +50,66 @@ class ProfilePage extends StatelessWidget{
                 icon: Icon(Icons.logout))
           ],
         ),
-        body: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.lightGreen,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15)
-                    ),
-                  ),
-                  padding: EdgeInsets.only(top:25, bottom:30),
-                  alignment: Alignment.center,
-                  width: double.infinity,
-                  child: Column(
-                    children: <Widget>[
-                      const CircleAvatar(
-                          backgroundImage: NetworkImage('https://i.pinimg.com/236x/04/cb/51/04cb51d6983405b8e44a4eb67e7d90d7.jpg'),
-                          radius:50
-                      ),
-                      const SizedBox(height:15),
+        body: FutureBuilder<Account?>(
+          future: account,
+          builder: (context, snapshot){
+            if(snapshot.hasData){
+              Account ac = snapshot.data!;
+              return Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.lightGreen,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15)
+                          ),
+                        ),
+                        padding: EdgeInsets.only(top:25, bottom:30),
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        child: Column(
+                          children: <Widget>[
+                            const CircleAvatar(
+                                backgroundImage: NetworkImage('https://i.pinimg.com/564x/bb/e5/04/bbe504471088ce20726a635395698d89.jpg'),
+                                radius:50
+                            ),
+                            const SizedBox(height:15),
 
-                      Text(
-                          "Bem vinda,",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 35,
-                          )
-                      ),
-                      Text(
-                          accounts.getFirstName(accountId).toString(),
-                          style: TextStyle(
-                            color: Colors.amber,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 35,
-                          )
-                      )
-                    ],
-                  )
-              ),
-              SizedBox(height: 10),
-              _buildProfileItem("Nome:", accounts.getFirstName(accountId).toString() + ' ' + accounts.getLastName(accountId).toString()),
-              _buildProfileItem("Gênero:", accounts.getGender(accountId).toString()),
-              _buildProfileItem("Aniversário:",accounts.getBirthday(accountId).toString())
-            ],
-          ),
-        )
+                            Text(
+                                "Bem vindo(a),",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 35,
+                                )
+                            ),
+                            Text(
+                                ac.firstName,
+                                style: TextStyle(
+                                  color: Colors.amber,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 35,
+                                )
+                            )
+                          ],
+                        )
+                    ),
+                    SizedBox(height: 10),
+                    _buildProfileItem('Nome', '${ac.firstName} ${ac.lastName}'),
+                    _buildProfileItem('Data de Nascimento', '${ac.birthday}'),
+                    _buildProfileItem('Gênero', '${ac.gender}')
+                  ],
+                ),
+              );
+            } else {
+              return Text('Carregando...');
+            }
+
+          },
+        ),
     );
   }
 }

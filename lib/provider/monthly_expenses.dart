@@ -32,25 +32,6 @@ class MonthlyExpenses with ChangeNotifier{
     return expensesByAccount(accountId)[i];
   }
 
-  void put(MonthlyExpense mExpense){
-    // edit
-    if(mExpense.id != null && _items.containsKey(mExpense.id)){
-      _items.update(mExpense.id, (_) => MonthlyExpense(accountId: mExpense.accountId, isExpense: mExpense.isExpense, day: mExpense.day, name: mExpense.name, quantity: mExpense.quantity));
-    }else{
-      final id = Random().nextInt(100);
-      _items.putIfAbsent(id, () => MonthlyExpense(
-        id: id,
-        accountId: mExpense.accountId,
-        isExpense: mExpense.isExpense,
-        day: mExpense.day,
-        name: mExpense.name,
-        quantity: mExpense.quantity,
-      ));
-    }
-    // add
-    notifyListeners();
-  }
-
   void remove(MonthlyExpense mExpense){
     if(mExpense != null && mExpense.id != null) {
       _items.remove(mExpense.id);
